@@ -1,11 +1,28 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import BannerImage from "../../../public/images/pexels-janetrangdoan-1132047.jpg";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "@/Component/Hooks/UseAxiosPublic";
 
 const Product = () => {
+    const axiosPublic = useAxiosPublic();
+    const [products, setProducts] = useState([]);
+    const { refetch } = useQuery({
+        queryKey: ["posts"],
+        queryFn: async () => {
+            try {
+                const res = await axiosPublic.get(`/api/getItems`);
+                setProducts(res.data); // Set initial orders
+                return res.data;
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+                return null;
+            }
+        },
+    });
     const categories = [
         "All",
         "Technology",
@@ -38,19 +55,6 @@ const Product = () => {
         }
     };
 
-    const products = [
-        { id: 1, name: "Green Capsicum", price: "৳ 400", image: BannerImage, rating: 5 },
-        { id: 2, name: "Red Capsicum", price: "৳ 350", image: BannerImage, rating: 4 },
-        { id: 3, name: "Yellow Capsicum", price: "৳ 450", image: BannerImage, rating: 5 },
-        { id: 4, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 5, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 6, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 7, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 8, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 9, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 10, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-        { id: 11, name: "Orange Capsicum", price: "৳ 380", image: BannerImage, rating: 4 },
-    ];
 
     return (
         <div className="w-[70rem] m-auto">
@@ -89,12 +93,20 @@ const Product = () => {
             {/* Product Section */}
             <h2 className="text-gray-400 text-[2rem] mt-10">Only for you</h2>
             <div className="mt-4 grid grid-cols-4 gap-4">
-                {products.map((product) => (
-                    <Link href={`/category-product/1234`} key={product.id}>
-                        <div  className="border cursor-pointer h-[17rem] p-2 w-[16.4rem] rounded-sm mt-2">
-                            <Image className="w-full cursor-pointer mb-3 rounded-md" src={product.image} alt={product.name} />
-                            <h2 className="font-semibold">{product.name}</h2>
-                            <h2 className="text-lg font-bold">{product.price}</h2>
+                {products.map((product, index) => (
+                    <Link href={`/category-product/1234`} key={product._id}>
+                        <div className="border cursor-pointer h-[17rem] p-2 w-[16.4rem] rounded-sm mt-2">
+                            <Image
+                                className="w-full cursor-pointer mb-3 h-[10rem] rounded-md"
+                                src={product.images[0] || BannerImage}
+                                alt={product.name || "Default Image"}  // Provide a meaningful alt text
+                                width={500}  // Set a width
+                                height={600} // Set a height
+                            />
+
+
+                            <h2 className="font-semibold">{product.title} uuuuuu</h2>
+                            <h2 className="text-lg font-bold">{product.price} {index+1} </h2>
                             <div className="flex text-yellow-500 ">
                                 {[...Array(product.rating)].map((_, i) => (
                                     <svg

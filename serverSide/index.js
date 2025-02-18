@@ -4,7 +4,9 @@ const socketIo = require("socket.io");
 const cors = require("cors");
 const compression = require("compression");
 const helmet = require("helmet");
-const connectMongoose = require("./moongoose/connectMongoose");
+const { connectMongoose } = require("./mongoose/connectDB");
+const addItems = require("./apis/addNewPost");
+const getItems = require("./apis/getProducts");
 
 const app = express();
 const server = http.createServer(app);
@@ -45,7 +47,8 @@ io.on("connection", (socket) => {
 const startServer = async () => {
   try {
     await connectMongoose(); // Connect Mongoose
-    console.log("Mongoose connected");
+    app.use('/api', addItems);
+    app.use('/api', getItems);
 
     const PORT = process.env.PORT || 3001;
     server.listen(PORT, () => {

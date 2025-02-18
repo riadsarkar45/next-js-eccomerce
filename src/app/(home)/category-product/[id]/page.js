@@ -1,8 +1,26 @@
+'use client'
 import React from 'react';
 import BannerImage from '../../../../../public/images/pexels-janetrangdoan-1132047.jpg';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from '@/Component/Hooks/UseAxiosPublic';
+
 const page = () => {
+    const axiosPublic = useAxiosPublic();
+    const { refetch } = useQuery({
+        queryKey: ["posts"],
+        queryFn: async () => {
+            try {
+                const res = await axiosPublic.get(`/api/getItems`);
+                console.log(res.data); // Set initial orders
+                return res.data;
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+                return null;
+            }
+        },
+    });
     const products = [
         { id: 1, name: "Green Capsicum", price: "৳ 400", image: BannerImage, rating: 5 },
         { id: 2, name: "Red Capsicum", price: "৳ 350", image: BannerImage, rating: 4 },
