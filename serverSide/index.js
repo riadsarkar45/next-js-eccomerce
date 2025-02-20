@@ -7,6 +7,7 @@ const helmet = require("helmet");
 const { connectMongoose } = require("./mongoose/connectDB");
 const addItems = require("./apis/addNewPost");
 const getItems = require("./apis/getProducts");
+const GetCategories = require("./apis/getCategories");
 
 const app = express();
 const server = http.createServer(app);
@@ -49,6 +50,7 @@ const startServer = async () => {
     await connectMongoose(); // Connect Mongoose
     app.use('/api', addItems);
     app.use('/api', getItems);
+    app.use('/api', GetCategories);
 
     const PORT = process.env.PORT || 3001;
     server.listen(PORT, () => {

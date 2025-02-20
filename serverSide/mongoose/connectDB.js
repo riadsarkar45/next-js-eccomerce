@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const uri = "mongodb+srv://next-JS:VFJXypJ5J6Oc5kVp@cluster0.lu7tyzl.mongodb.net/social?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://next-JS:VFJXypJ5J6Oc5kVp@cluster0.lu7tyzl.mongodb.net/next-JS?retryWrites=true&w=majority&appName=Cluster0";
 
 let isConnected = false; // Prevent multiple connections
 

@@ -4,6 +4,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import PublicHeader from "@/Component/Header";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Provider } from "react-redux";
+import { store } from "@/Component/Redux/Store/store";
+import AuthProvider from "@/Component/Hooks/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,9 +27,13 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-serif`}
       >
         <PublicHeader /> {/* This is your global header */}
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <AuthProvider>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              {children}
+            </QueryClientProvider>
+          </Provider>
+        </AuthProvider>
 
         {/* Render children for all public routes */}
       </body>

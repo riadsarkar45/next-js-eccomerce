@@ -1,6 +1,7 @@
 const express = require("express");
 const addItems = express.Router();
 const Post = require("../model/addNewPost");
+const Categories = require("../model/addNewCategory");
 
 addItems.post("/add-newItem", async (req, res) => {
   try {
@@ -30,12 +31,22 @@ addItems.post("/add-newItem", async (req, res) => {
 
     // Save the new post to the database
     await newPost.save();
-
-    // Send a success response to the client
     res.status(201).json({
       message: "Item added successfully!",
       data: newPost,
     });
+    const isExist = await Categories.findOne({ category: category });
+    if (isExist) {
+      return null;
+    } else {
+      const addNewCategory = new Categories({
+        category
+      });
+      await addNewCategory.save();
+    }
+
+    // Send a success response to the client
+
 
   } catch (err) {
     console.error("Error creating post:", err);
