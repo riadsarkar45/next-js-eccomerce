@@ -16,11 +16,11 @@ const PublicHeader = () => {
     };
 
     useEffect(() => {
-        if(user){
+        if(user && cartItems.length > 0){
             dispatch(syncCartToDB(user?.uid))
         }
         console.log(user);
-    }, [user])
+    }, [user, cartItems])
     
 
     const handleRemoveItem = (itemId) => {

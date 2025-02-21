@@ -44,7 +44,7 @@ const SingleProduct = () => {
     };
 
     const handleAddToCart = () => {
-        disPatch(addToCart({ productId: product?._id, productImg: defaultPhoto, quantity: 1, title: product?.title, price: product?.price }));
+        disPatch(addToCart({ userId: user?.uid, productId: product?._id, productImg: defaultPhoto, quantity: 1, title: product?.title, price: product?.price }));
         console.log('added');
     }
 

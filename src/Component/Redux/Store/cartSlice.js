@@ -27,7 +27,7 @@ export const syncCartToDB = createAsyncThunk(
       }
       return { success: true };
     } catch (error) {
-      console.error("Error syncing cart:", error);
+      console.log("Error syncing cart:", error);
       return { success: false };
     }
   }
@@ -40,17 +40,19 @@ const cartSlice = createSlice({
   initialState: { cartItems: loadCartFromStorage() },
   reducers: {
     addToCart: (state, action) => {
-      const { productId, quantity, productImg, title, price } = action.payload;
-      const existingItem = state.cartItems.find(item => item.productId === productId);
+      const {userId, productId, quantity, productImg, title, price } = action.payload;
 
-      if (existingItem) {
-        existingItem.quantity += quantity;
-      } else {
+      let cartItems = []
+      
         state.cartItems.push({ productId, quantity, productImg, title, price });
-      }
+      
 
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cartItems));
+      if(userId){
+        cartItems.push({productId, quantity, productImg, title, price})
+      }else {
+        localStorage.setItem("cart", JSON.stringify(state.cartItems));
+      }
     },
     removeFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(item => item.productId !== action.payload);

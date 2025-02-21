@@ -1,15 +1,16 @@
 'use client'
 import { AuthContext } from '@/Component/Hooks/AuthProvider';
+import useAxiosPublic from '@/Component/Hooks/UseAxiosPublic';
 import React, { useContext } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Registration = () => {
     const { createUser, logOut } = useContext(AuthContext)
-
+    const axiosPublic = useAxiosPublic();
+    const router = useRouter();
     const handleCreateUser = async (e) => {
         e.preventDefault();
         const form = e.target;
-        const formData = new FormData(form);
-        formData.get('image')
         const email = form.email.value;
         console.log(email);
         const name = form.name.value;
@@ -22,22 +23,22 @@ const Registration = () => {
             createUser(email, password)
                 .then(res => {
                     if (res.user.uid) {
-                        // const all = { name, email, role, status, uid: res.user.uid }
-                        // axiosPublic.post('/register', all)
-                        //     .then(() => {
-                        //         logOut();
-                        //         navigate('/login')
-                        //     })
-                        //     .catch(err => console.log(err))
+                        const all = { name, email, role, uid: res.user.uid }
+                        axiosPublic.post('/api/register', all)
+                            .then((res) => {
+                                console.log(res?.data?.msg);
+                                router.push('/')
+                            })
+                            .catch(err => console.log(err))
                     } else {
                         console.log('firebase id not found.');
                     }
 
 
-                    // form.reset();
+                    form.reset();
                     console.log(res.user.uid, 'headshot')
                 })
-                .catch(error => console.error(toast.error(error.message)))
+                .catch(error => console.error(error.message))
 
         } catch (error) {
             console.error(error)

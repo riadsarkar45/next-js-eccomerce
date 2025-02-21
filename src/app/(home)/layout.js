@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from "react-redux";
 import { store } from "@/Component/Redux/Store/store";
 import AuthProvider from "@/Component/Hooks/AuthProvider";
+import GlobalUser from "@/Component/Hooks/GlobalUser/GlobalUser";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,13 +28,15 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-serif`}
       >
         <AuthProvider>
-          <Provider store={store}>
-            <PublicHeader /> {/* This is your global header */}
+          <GlobalUser>
+            <Provider store={store}>
+              <PublicHeader /> {/* This is your global header */}
 
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
-          </Provider>
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+            </Provider>
+          </GlobalUser>
         </AuthProvider>
 
         {/* Render children for all public routes */}
