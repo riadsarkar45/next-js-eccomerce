@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BannerImage from '../../../../../public/images/pexels-janetrangdoan-1132047.jpg';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '@/Component/Hooks/UseAxiosPublic';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/Component/Redux/Store/cartSlice';
+import { AuthContext } from '@/Component/Hooks/AuthProvider';
 
 const SingleProduct = () => {
     const [product, setProduct] = useState({});
@@ -16,6 +17,7 @@ const SingleProduct = () => {
     const axiosPublic = useAxiosPublic();
     const [currentIndex, setCurrentIndex] = useState(0);
     const disPatch = useDispatch();
+    const { user } = useContext(AuthContext)
     const { refetch } = useQuery({
         queryKey: ["posts"],
         queryFn: async () => {
@@ -42,7 +44,7 @@ const SingleProduct = () => {
     };
 
     const handleAddToCart = () => {
-        disPatch(addToCart({ productId: product.id, quantity: 1 }));
+        disPatch(addToCart({ productId: product?._id, productImg: defaultPhoto, quantity: 1, title: product?.title, price: product?.price }));
         console.log('added');
     }
 

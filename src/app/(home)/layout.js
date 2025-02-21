@@ -26,9 +26,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-serif`}
       >
-        <PublicHeader /> {/* This is your global header */}
         <AuthProvider>
           <Provider store={store}>
+            <PublicHeader /> {/* This is your global header */}
+
             <QueryClientProvider client={queryClient}>
               {children}
             </QueryClientProvider>

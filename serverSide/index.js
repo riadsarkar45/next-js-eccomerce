@@ -8,6 +8,8 @@ const { connectMongoose } = require("./mongoose/connectDB");
 const addItems = require("./apis/addNewPost");
 const getItems = require("./apis/getProducts");
 const GetCategories = require("./apis/getCategories");
+const addCart = require("./apis/syncCartItems");
+const payment = require("./apis/payment");
 
 const app = express();
 const server = http.createServer(app);
@@ -51,6 +53,8 @@ const startServer = async () => {
     app.use('/api', addItems);
     app.use('/api', getItems);
     app.use('/api', GetCategories);
+    app.use('/api', addCart);
+    app.use('/api', payment);
 
     const PORT = process.env.PORT || 3001;
     server.listen(PORT, () => {
