@@ -8,6 +8,7 @@ import useAxiosPublic from '@/Component/Hooks/UseAxiosPublic';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/Component/Redux/Store/cartSlice';
 import { AuthContext } from '@/Component/Hooks/AuthProvider';
+import { addToWishList } from '@/Component/Redux/Store/wishList';
 
 const SingleProduct = () => {
     const [product, setProduct] = useState({});
@@ -46,6 +47,10 @@ const SingleProduct = () => {
     const handleAddToCart = () => {
         disPatch(addToCart({ userId: user?.uid, productId: product?._id, productImg: defaultPhoto, quantity: 1, title: product?.title, price: product?.price }));
         console.log('added');
+    }
+
+    const handleAddToWishList = () => {
+        disPatch(addToWishList({ userId: user?.uid, productId: product?._id, productImg: defaultPhoto, quantity: 1, title: product?.title, price: product?.price }))
     }
 
     if (loading) return <div>Loading...</div>;
@@ -118,7 +123,7 @@ const SingleProduct = () => {
                             <button onClick={() => handleAddToCart()} className="bg-green-500 bg-opacity-25 w-[15rem] text-green-800 border-green-500 p-2 rounded-md">
                                 Add To Cart
                             </button>
-                            <button className="bg-red-500 bg-opacity-25 w-[15rem] text-red-800 border-red-500 p-2 rounded-md">
+                            <button onClick={() =>handleAddToWishList()} className="bg-red-500 bg-opacity-25 w-[15rem] text-red-800 border-red-500 p-2 rounded-md">
                                 Buy Now
                             </button>
                         </div>

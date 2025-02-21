@@ -30,5 +30,5 @@ const CartSyncSchema = new mongoose.Schema({
   timestamps: true, // Optional: to track when the item was added/updated
 });
 
-const CartItem = mongoose.model('CartItem', CartSyncSchema);
+const CartItem = mongoose.model('CartItems', CartSyncSchema);
 module.exports = CartItem;

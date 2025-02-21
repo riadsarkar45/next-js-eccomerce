@@ -11,6 +11,7 @@ const GetCategories = require("./apis/getCategories");
 const addCart = require("./apis/syncCartItems");
 const payment = require("./apis/payment");
 const newUser = require("./apis/users/registration");
+const syncWishList = require("./apis/syncWishListitems");
 
 const app = express();
 const server = http.createServer(app);
@@ -57,6 +58,7 @@ const startServer = async () => {
     app.use('/api', addCart);
     app.use('/api', payment);
     app.use('/api', newUser);
+    app.use('/api', syncWishList);
 
     const PORT = process.env.PORT || 3001;
     server.listen(PORT, () => {

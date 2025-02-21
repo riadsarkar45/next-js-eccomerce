@@ -1,5 +1,5 @@
 const express = require("express");
-const CartItem = require("../model/syncModel");
+const CartItem = require("../model/syncCartItemModel");
 const addCart = express.Router();
 
 addCart.post('/syncCartItem/:userId', async (req, res) => {
